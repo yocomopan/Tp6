@@ -1,16 +1,151 @@
-# This is a sample Python script.
+"""
+2026-04-16
+Ivan Zheryakov
+Roche, Papier et Ciseaux
+"""
+from AttackAnimation import AttackType
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+"""
+Starting Template
+
+Once you have learned how to use classes, you can begin your program with this
+template.
+
+If Python and Arcade are installed, this example can be run from the command line with:
+python -m arcade.examples.starting_template
+"""
+import arcade
+
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+WINDOW_TITLE = "Starting Template"
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class GameView(arcade.View):
+    """
+    Main application class.
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    NOTE: Go ahead and delete the methods you don't need.
+    If you do need a method, delete the 'pass' and replace it
+    with your own code. Don't leave 'pass' in this program.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.background_color = arcade.color.AMAZON
+
+        self.NOT_STARTED = True
+        self.ROUND_ACTIVE = False
+        self.ROUND_DONE = False
+        self.GAME_OVER = False
+        self.reset_score = 0
+        self.beard = arcade.Sprite("assets/faceBeard.png", .60, 250,100) # +.20
+        self.pc = arcade.Sprite("assets/compy.png", 3, 600, 100) # +1
+        self.beard_list = arcade.SpriteList()
+        self.pc_list = arcade.SpriteList()
+        self.beard_list.append(self.beard)
+        self.pc_list.append(self.pc)
+        self.player_attack_type = {
+            AttackType.ROCK: False,
+            AttackType.PAPER: False,
+            AttackType.SCISSORS: False
+        }
+
+        # If you have sprite lists, you should create them here,
+        # and set them to None
+
+
+    def reset(self):
+        """Reset the game to the initial state."""
+        # Do changes needed to restart the game here if you want to support that
+        pass
+
+    def on_draw(self):
+        """
+        Render the screen.
+        """
+
+        # This command should happen before we start drawing. It will clear
+        # the screen to the background color, and erase what we drew last frame.
+        self.clear()
+        self.beard_list.draw()
+        self.pc_list.draw()
+        # Call draw() on all your sprite lists below
+
+
+    def on_update(self, delta_time):
+        """
+        All the logic to move, and the game logic goes here.
+        Normally, you'll call update() on the sprite lists that
+        need it.
+        """
+        pass
+
+    def on_key_press(self, key, key_modifiers):
+        self.ROUND_ACTIVE = True
+        self.NOT_STARTED = False
+        self.GAME_OVER = False
+        self.ROUND_DONE = False
+
+
+
+        """
+        Called whenever a key on the keyboard is pressed.
+
+        For a full list of keys, see:
+        https://api.arcade.academy/en/latest/arcade.key.html
+        """
+        pass
+
+    def on_key_release(self, key, key_modifiers):
+        """
+        Called whenever the user lets off a previously pressed key.
+        """
+        pass
+
+    def on_mouse_motion(self, x, y, delta_x, delta_y):
+        """
+        Called whenever the mouse moves.
+        """
+        pass
+
+    def on_mouse_press(self, x, y, button, key_modifiers):
+
+        """
+        Called when the user presses a mouse button.
+        """
+        pass
+
+    def on_mouse_release(self, x, y, button, key_modifiers):
+        if self.player_attack_type[AttackType.ROCK]:
+            pass
+        if self.player_attack_type[AttackType.PAPER]:
+            pass
+        if self.player_attack_type[AttackType.SCISSORS]:
+            pass
+
+        """
+        Called when a user releases a mouse button.
+        """
+        pass
+
+
+def main():
+    """ Main function """
+    # Create a window class. This is what actually shows up on screen
+    window = arcade.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+
+    # Create and setup the GameView
+    game = GameView()
+
+    # Show GameView on screen
+    window.show_view(game)
+
+    # Start the arcade game loop
+    arcade.run()
+
+
+if __name__ == "__main__":
+    main()
