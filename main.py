@@ -19,8 +19,7 @@ import arcade
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 WINDOW_TITLE = "Starting Template"
-
-
+option_height = 191
 
 
 class GameView(arcade.View):
@@ -34,19 +33,44 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
-        self.background_color = arcade.color.AMAZON
+        self.background_color = arcade.color.SMOKY_BLACK
+        self.title = arcade.Text("Rochambeau",
+                                 WINDOW_WIDTH / 2 - 135, WINDOW_HEIGHT - 70,
+                                 arcade.color.APPLE_GREEN,
+                                 40, font_name="Comic Sans MS")
+        self.sub_title = arcade.Text("Appuyez sur l'un des choix proposé ci-dessous pour jouer!",
+                                     WINDOW_WIDTH / 2 - 448, WINDOW_HEIGHT - 102,
+                                     arcade.color.BLUEBERRY,
+                                     25, font_name="Comic Sans MS")
 
         self.NOT_STARTED = True
         self.ROUND_ACTIVE = False
         self.ROUND_DONE = False
         self.GAME_OVER = False
         self.reset_score = 0
-        self.beard = arcade.Sprite("assets/faceBeard.png", .60, 250,100) # +.20
-        self.pc = arcade.Sprite("assets/compy.png", 3, 600, 100) # +1
+
+        self.beard = arcade.Sprite("assets/faceBeard.png", .60,
+                                   WINDOW_WIDTH / 2 - 320, WINDOW_HEIGHT / 2)  # +.20
+        self.pc = arcade.Sprite("assets/compy.png", 3,
+                                WINDOW_WIDTH / 2 + 320, WINDOW_HEIGHT / 2)  # +1
+        self.ore = arcade.Sprite("assets/srock.png", .60,
+                                 320 + 320/3, option_height)
+        self.sheet = arcade.Sprite("assets/spaper.png", .60,
+                                   320, option_height)
+        self.shears = arcade.Sprite("assets/scissors.png", .60,
+                                    320 - 320/3, option_height)
+
         self.beard_list = arcade.SpriteList()
         self.pc_list = arcade.SpriteList()
+        self.material_list = arcade.SpriteList()
+
+        self.material_list.append(self.ore)
+        self.material_list.append(self.sheet)
+        self.material_list.append(self.shears)
+
         self.beard_list.append(self.beard)
         self.pc_list.append(self.pc)
+
         self.player_attack_type = {
             AttackType.ROCK: False,
             AttackType.PAPER: False,
@@ -55,7 +79,6 @@ class GameView(arcade.View):
 
         # If you have sprite lists, you should create them here,
         # and set them to None
-
 
     def reset(self):
         """Reset the game to the initial state."""
@@ -72,8 +95,12 @@ class GameView(arcade.View):
         self.clear()
         self.beard_list.draw()
         self.pc_list.draw()
-        # Call draw() on all your sprite lists below
+        self.material_list.draw()
 
+        self.title.draw()
+        self.sub_title.draw()
+
+        # Call draw() on all your sprite lists below
 
     def on_update(self, delta_time):
         """
@@ -88,8 +115,6 @@ class GameView(arcade.View):
         self.NOT_STARTED = False
         self.GAME_OVER = False
         self.ROUND_DONE = False
-
-
 
         """
         Called whenever a key on the keyboard is pressed.
