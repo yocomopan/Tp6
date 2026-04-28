@@ -3,6 +3,8 @@
 Ivan Zheryakov
 Roche, Papier et Ciseaux
 """
+import random
+
 from AttackAnimation import AttackType
 
 """
@@ -33,6 +35,7 @@ class GameView(arcade.View):
 
     def __init__(self):
         super().__init__()
+
         self.background_color = arcade.color.SMOKY_BLACK
         self.title = arcade.Text("Rochambeau",
                                  WINDOW_WIDTH / 2 - 135, WINDOW_HEIGHT - 70,
@@ -48,6 +51,17 @@ class GameView(arcade.View):
         self.ROUND_DONE = False
         self.GAME_OVER = False
         self.reset_score = 0
+
+        self.score_humain = 0
+        self.score_humain_text = arcade.Text(f"Score: {self.score_humain}",
+                                   WINDOW_WIDTH/2 - 385, WINDOW_HEIGHT/2 + 100,
+                                   arcade.color.CANDY_APPLE_RED,
+                                   25, font_name="Comic Sans MS")
+        self.score_pc = arcade.Text(f"Score: {self.reset_score}",
+                                   WINDOW_WIDTH / 2 + 255, WINDOW_HEIGHT / 2 + 100,
+                                   arcade.color.CANDY_APPLE_RED,
+                                   25, font_name="Comic Sans MS")
+
 
         self.beard = arcade.Sprite("assets/faceBeard.png", .60,
                                    WINDOW_WIDTH / 2 - 320, WINDOW_HEIGHT / 2)  # +.20
@@ -76,9 +90,10 @@ class GameView(arcade.View):
             AttackType.PAPER: False,
             AttackType.SCISSORS: False
         }
+        self.pat = self.player_attack_type
+        self.computer_attack_type = None
+        self.cat = self.computer_attack_type
 
-        # If you have sprite lists, you should create them here,
-        # and set them to None
 
     def reset(self):
         """Reset the game to the initial state."""
@@ -99,16 +114,37 @@ class GameView(arcade.View):
 
         self.title.draw()
         self.sub_title.draw()
+        self.score_humain_text.draw()
+        self.score_pc.draw()
 
         # Call draw() on all your sprite lists below
 
     def on_update(self, delta_time):
+
         """
         All the logic to move, and the game logic goes here.
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        pass
+        self.cat = random.choice(list(AttackType.__iter__()))
+        if self.cat == self.pat:
+            print("partie nulle")
+
+        elif ((self.cat == 1 and self.pat == 2) or
+             (self.cat == 0 and self.pat == 1) or
+             (self.cat == 2 and self.pat == 0)):
+            self.score_humain += 1
+
+        elif ((self.cat == 2 and self.pat == 1) or
+             (self.cat == 1 and self.pat == 0) or
+             (self.cat == 0 and self.pat == 2)):
+            self.score_pc += 1
+
+        else:
+            print("erreur")
+
+
+
 
     def on_key_press(self, key, key_modifiers):
         self.ROUND_ACTIVE = True
@@ -137,6 +173,14 @@ class GameView(arcade.View):
         pass
 
     def on_mouse_press(self, x, y, button, key_modifiers):
+        if self.ore.collides_with_point((x, y)):
+            self.player_attack_type = AttackType.ROCK
+
+        if self.sheet.collides_with_point((x, y)):
+            self.player_attack_type = AttackType.PAPER
+
+        if self.shears.collides_with_point((x, y)):
+            self.player_attack_type = AttackType.SCISSORS
 
         """
         Called when the user presses a mouse button.
