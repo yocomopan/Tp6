@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="321885cf-1254-4e73-8cc0-eee83742883c" name="Changes" comment="modif. added game elements such as rules and score (unfinished), also working on animations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AttackAnimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AttackAnimation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GAMESTATE.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,7 +120,15 @@
       <option name="project" value="LOCAL" />
       <updated>1777392586045</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="modif. added game elements such as rules and score (unfinished), also working on animations">
+      <option name="closed" value="true" />
+      <created>1778787490298</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1778787490298</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

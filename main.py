@@ -8,7 +8,6 @@ import random
 from game_state import GameState
 from AttackAnimation import AttackType
 
-
 """
 Starting Template
 
@@ -38,6 +37,8 @@ class GameView(arcade.View):
     def __init__(self):
         super().__init__()
 
+        self.score_pc_text = 0
+        self.score_humain_text = 0
         self.background_color = arcade.color.SMOKY_BLACK
         self.title = arcade.Text("Rochambeau",
                                  WINDOW_WIDTH / 2 - 135, WINDOW_HEIGHT - 70,
@@ -57,14 +58,7 @@ class GameView(arcade.View):
         ]
 
         self.score_humain = 0
-        self.score_humain_text = arcade.Text(f"Score: {self.score_humain}",
-                                             WINDOW_WIDTH / 2 - 385, WINDOW_HEIGHT / 2 + 100,
-                                             arcade.color.CANDY_APPLE_RED,
-                                             25, font_name="Comic Sans MS")
-        self.score_pc = arcade.Text(f"Score: {self.reset_score}",
-                                    WINDOW_WIDTH / 2 + 255, WINDOW_HEIGHT / 2 + 100,
-                                    arcade.color.CANDY_APPLE_RED,
-                                    25, font_name="Comic Sans MS")
+        self.score_pc = 0
 
         self.beard = arcade.Sprite("assets/faceBeard.png", .60,
                                    WINDOW_WIDTH / 2 - 320, WINDOW_HEIGHT / 2)  # +.20
@@ -94,7 +88,7 @@ class GameView(arcade.View):
             AttackType.SCISSORS: False
         }
         self.pat = self.player_attack_type
-        self.computer_attack_type = None
+        self.computer_attack_type = random.randint(0, 2)
         self.cat = self.computer_attack_type
 
     def reset(self):
@@ -116,8 +110,16 @@ class GameView(arcade.View):
 
         self.title.draw()
         self.sub_title.draw()
+        self.score_humain_text = arcade.Text(f"Score: {self.score_humain}",
+                                             WINDOW_WIDTH / 2 - 385, WINDOW_HEIGHT / 2 + 100,
+                                             arcade.color.CANDY_APPLE_RED,
+                                             25, font_name="Comic Sans MS")
+        self.score_pc_text = arcade.Text(f"Score: {self.score_pc}",
+                                         WINDOW_WIDTH / 2 + 255, WINDOW_HEIGHT / 2 + 100,
+                                         arcade.color.CANDY_APPLE_RED,
+                                         25, font_name="Comic Sans MS")
         self.score_humain_text.draw()
-        self.score_pc.draw()
+        self.score_pc_text.draw()
 
         # Call draw() on all your sprite lists below
 
@@ -142,8 +144,6 @@ class GameView(arcade.View):
               (self.cat == 0 and self.pat == 2)):
             self.score_pc += 1
 
-
-
     def on_key_press(self, key, key_modifiers):
         """
         Called whenever a key on the keyboard is pressed.
@@ -154,7 +154,8 @@ class GameView(arcade.View):
         if key == arcade.key.SPACE:
             if self.game_state == GameState.NOT_STARTED:
                 self.game_state = GameState.ROUND_ACTIVE
-
+            elif self.game_state == GameState.ROUND_DONE:
+                self.game_state = GameState.ROUND_ACTIVE
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         """
@@ -163,20 +164,25 @@ class GameView(arcade.View):
         if self.game_state != GameState.ROUND_ACTIVE:
             return
 
-        if self.ore.collides_with_point((x, y)):
-            self.player_attack_type[AttackType.ROCK] = True
-            print("ore")
+        while self.game_state == GameState.ROUND_ACTIVE:
 
-        if self.sheet.collides_with_point((x, y)):
-            self.player_attack_type[AttackType.PAPER] = True
-            print("sheet")
+            if self.ore.collides_with_point((x, y)):
+                self.player_attack_type[AttackType.ROCK] = True
+                print("ore")
+                self.game_state = GameState.ROUND_DONE
+                return
 
-        if self.shears.collides_with_point((x, y)):
-            self.player_attack_type[AttackType.SCISSORS] = True
-            print("shears")
+            elif self.sheet.collides_with_point((x, y)):
+                self.player_attack_type[AttackType.PAPER] = True
+                print("sheet")
+                self.game_state = GameState.ROUND_DONE
+                return
 
-
-
+            elif self.shears.collides_with_point((x, y)):
+                self.player_attack_type[AttackType.SCISSORS] = True
+                print("shears")
+                self.game_state = GameState.ROUND_DONE
+                return
 
 
 def main():
