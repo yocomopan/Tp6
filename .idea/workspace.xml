@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="321885cf-1254-4e73-8cc0-eee83742883c" name="Changes" comment="modif. added the sprites necessary for the future combat system, modified the bg and added some text">
+    <list default="true" id="321885cf-1254-4e73-8cc0-eee83742883c" name="Changes" comment="modif. added game elements such as rules and score (unfinished), also working on animations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AttackAnimation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AttackAnimation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GAMESTATE.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_state.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,12 +114,21 @@
       <option name="project" value="LOCAL" />
       <updated>1777056848937</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="modif. added game elements such as rules and score (unfinished), also working on animations">
+      <option name="closed" value="true" />
+      <created>1777392586045</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1777392586045</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="modif. added some pngs, files and a whole lot of code." />
     <MESSAGE value="modif. added the sprites necessary for the future combat system, modified the bg and added some text" />
-    <option name="LAST_COMMIT_MESSAGE" value="modif. added the sprites necessary for the future combat system, modified the bg and added some text" />
+    <MESSAGE value="modif. added game elements such as rules and score (unfinished), also working on animations" />
+    <option name="LAST_COMMIT_MESSAGE" value="modif. added game elements such as rules and score (unfinished), also working on animations" />
   </component>
 </project>

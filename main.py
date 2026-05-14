@@ -5,7 +5,9 @@ Roche, Papier et Ciseaux
 """
 import random
 
+from game_state import GameState
 from AttackAnimation import AttackType
+
 
 """
 Starting Template
@@ -46,33 +48,34 @@ class GameView(arcade.View):
                                      arcade.color.BLUEBERRY,
                                      25, font_name="Comic Sans MS")
 
-        self.NOT_STARTED = True
-        self.ROUND_ACTIVE = False
-        self.ROUND_DONE = False
-        self.GAME_OVER = False
+        self.game_state = GameState.NOT_STARTED
         self.reset_score = 0
+
+        self.sprites_rock = [
+            arcade.Sprite("assets/srock.png"),
+            arcade.Sprite("assets/srock-attack.png")
+        ]
 
         self.score_humain = 0
         self.score_humain_text = arcade.Text(f"Score: {self.score_humain}",
-                                   WINDOW_WIDTH/2 - 385, WINDOW_HEIGHT/2 + 100,
-                                   arcade.color.CANDY_APPLE_RED,
-                                   25, font_name="Comic Sans MS")
+                                             WINDOW_WIDTH / 2 - 385, WINDOW_HEIGHT / 2 + 100,
+                                             arcade.color.CANDY_APPLE_RED,
+                                             25, font_name="Comic Sans MS")
         self.score_pc = arcade.Text(f"Score: {self.reset_score}",
-                                   WINDOW_WIDTH / 2 + 255, WINDOW_HEIGHT / 2 + 100,
-                                   arcade.color.CANDY_APPLE_RED,
-                                   25, font_name="Comic Sans MS")
-
+                                    WINDOW_WIDTH / 2 + 255, WINDOW_HEIGHT / 2 + 100,
+                                    arcade.color.CANDY_APPLE_RED,
+                                    25, font_name="Comic Sans MS")
 
         self.beard = arcade.Sprite("assets/faceBeard.png", .60,
                                    WINDOW_WIDTH / 2 - 320, WINDOW_HEIGHT / 2)  # +.20
         self.pc = arcade.Sprite("assets/compy.png", 3,
                                 WINDOW_WIDTH / 2 + 320, WINDOW_HEIGHT / 2)  # +1
         self.ore = arcade.Sprite("assets/srock.png", .60,
-                                 320 + 320/3, option_height)
+                                 320 + 320 / 3, option_height)
         self.sheet = arcade.Sprite("assets/spaper.png", .60,
                                    320, option_height)
         self.shears = arcade.Sprite("assets/scissors.png", .60,
-                                    320 - 320/3, option_height)
+                                    320 - 320 / 3, option_height)
 
         self.beard_list = arcade.SpriteList()
         self.pc_list = arcade.SpriteList()
@@ -93,7 +96,6 @@ class GameView(arcade.View):
         self.pat = self.player_attack_type
         self.computer_attack_type = None
         self.cat = self.computer_attack_type
-
 
     def reset(self):
         """Reset the game to the initial state."""
@@ -131,74 +133,50 @@ class GameView(arcade.View):
             print("partie nulle")
 
         elif ((self.cat == 1 and self.pat == 2) or
-             (self.cat == 0 and self.pat == 1) or
-             (self.cat == 2 and self.pat == 0)):
+              (self.cat == 0 and self.pat == 1) or
+              (self.cat == 2 and self.pat == 0)):
             self.score_humain += 1
 
         elif ((self.cat == 2 and self.pat == 1) or
-             (self.cat == 1 and self.pat == 0) or
-             (self.cat == 0 and self.pat == 2)):
+              (self.cat == 1 and self.pat == 0) or
+              (self.cat == 0 and self.pat == 2)):
             self.score_pc += 1
-
-        else:
-            print("erreur")
-
 
 
 
     def on_key_press(self, key, key_modifiers):
-        self.ROUND_ACTIVE = True
-        self.NOT_STARTED = False
-        self.GAME_OVER = False
-        self.ROUND_DONE = False
-
         """
         Called whenever a key on the keyboard is pressed.
 
         For a full list of keys, see:
         https://api.arcade.academy/en/latest/arcade.key.html
         """
-        pass
+        if key == arcade.key.SPACE:
+            if self.game_state == GameState.NOT_STARTED:
+                self.game_state = GameState.ROUND_ACTIVE
 
-    def on_key_release(self, key, key_modifiers):
-        """
-        Called whenever the user lets off a previously pressed key.
-        """
-        pass
-
-    def on_mouse_motion(self, x, y, delta_x, delta_y):
-        """
-        Called whenever the mouse moves.
-        """
-        pass
 
     def on_mouse_press(self, x, y, button, key_modifiers):
-        if self.ore.collides_with_point((x, y)):
-            self.player_attack_type = AttackType.ROCK
-
-        if self.sheet.collides_with_point((x, y)):
-            self.player_attack_type = AttackType.PAPER
-
-        if self.shears.collides_with_point((x, y)):
-            self.player_attack_type = AttackType.SCISSORS
-
         """
         Called when the user presses a mouse button.
         """
-        pass
+        if self.game_state != GameState.ROUND_ACTIVE:
+            return
 
-    def on_mouse_release(self, x, y, button, key_modifiers):
-        if self.player_attack_type[AttackType.ROCK]:
-            pass
-        if self.player_attack_type[AttackType.PAPER]:
-            pass
-        if self.player_attack_type[AttackType.SCISSORS]:
-            pass
+        if self.ore.collides_with_point((x, y)):
+            self.player_attack_type[AttackType.ROCK] = True
+            print("ore")
 
-        """
-        Called when a user releases a mouse button.
-        """
-        pass
+        if self.sheet.collides_with_point((x, y)):
+            self.player_attack_type[AttackType.PAPER] = True
+            print("sheet")
+
+        if self.shears.collides_with_point((x, y)):
+            self.player_attack_type[AttackType.SCISSORS] = True
+            print("shears")
+
+
+
 
 
 def main():
